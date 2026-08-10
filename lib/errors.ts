@@ -1,0 +1,21 @@
+export class AppError extends Error {
+    statusCode: number;
+
+    constructor(message: string, statusCode = 500) {
+        super(message);
+        this.statusCode = statusCode;
+        this.name = this.constructor.name;
+    }
+}
+
+export class NotFoundError extends AppError {
+    constructor(message = 'ไม่พบข้อความนี้') {
+        super(message, 404);
+    }
+}
+
+export class ValidationError extends AppError {
+    constructor(message = 'ข้อมูลไม่ถูกต้อง') {
+        super(message, 400);
+    }
+}
