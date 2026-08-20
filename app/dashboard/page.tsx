@@ -1,21 +1,20 @@
 import { connection } from 'next/server';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getMessages } from '@/lib/messages';
+import { listMessagesWithComments } from '@/lib/commentService';
 import LogoutButton from '../components/LogoutButton';
 import MessageCard from '../components/MessageCard';
 
 export default async function DashboardPage() {
-  await connection(); // บังคับให้ render ใหม่ทุกครั้ง ไม่ cache
+  await connection();
 
-  // ถ้าไม่มี session ให้ redirect ไปหน้า login
   const cookieStore = await cookies();
   const session = cookieStore.get('session');
   if (!session) {
     redirect('/login');
   }
 
-  const messages = getMessages();
+  const messages = await listMessagesWithComments();
 
   return (
     <main className="p-8">

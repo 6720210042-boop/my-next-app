@@ -1,12 +1,13 @@
 import { getMessageById, editMessage, removeMessage } from '@/lib/messageService';
 import { withErrorHandling } from '@/lib/withErrorHandling';
+import { NotFoundError } from '@/lib/errors';
 
 export const GET = withErrorHandling(async (
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) => {
     const { id } = await params;
-    const message = getMessageById(id);
+    const message = await getMessageById(id);
     return Response.json({ message });
 });
 
@@ -16,7 +17,10 @@ export const PATCH = withErrorHandling(async (
 ) => {
     const { id } = await params;
     const updates = await request.json();
-    const updated = editMessage(id, updates);
+    const updated = await editMessage(id, updates);
+    if (!updated) {
+        throw new NotFoundError('ไม่พบข้อความนี้');
+    }
     return Response.json({ ok: true, item: updated });
 });
 
@@ -25,6 +29,6 @@ export const DELETE = withErrorHandling(async (
     { params }: { params: Promise<{ id: string }> }
 ) => {
     const { id } = await params;
-    removeMessage(id);
+    await removeMessage(id);
     return Response.json({ ok: true });
 });
