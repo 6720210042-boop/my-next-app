@@ -9,6 +9,7 @@ model Message {
   name      String
   email     String    @unique
   message   String
+  authorId  String?
   createdAt DateTime  @default(now())
   comments  Comment[]
 }
@@ -24,7 +25,8 @@ model Comment {
 
 model User {
   id        String   @id @default(cuid())
-  username  String   @unique
+  email     String   @unique
   password  String
   createdAt DateTime @default(now())
 }
+

@@ -10,11 +10,12 @@ export function withErrorHandling(handler: RouteHandler): RouteHandler {
         } catch (error: any) {
             console.error('API Error caught by wrapper:', error);
 
-            // หากเป็น Custom Error ที่เราระบุ (เช่น NotFoundError, ValidationError)
-            if (error instanceof AppError) {
+            // หากเป็น Custom Error ที่เราระบุ (เช่น NotFoundError, ValidationError, ForbiddenError)
+            if (error instanceof AppError || error.status || error.statusCode) {
+                const status = error.statusCode || error.status || 400;
                 return NextResponse.json(
                     { error: error.message },
-                    { status: error.statusCode }
+                    { status }
                 );
             }
 

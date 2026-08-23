@@ -19,3 +19,11 @@ export class ValidationError extends AppError {
         super(message, 400);
     }
 }
+
+export class ForbiddenError extends AppError {
+    status = 403;
+    constructor(message = 'คุณไม่มีสิทธิ์') {
+        super(message, 403);
+    }
+}
+

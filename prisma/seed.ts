@@ -9,20 +9,13 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-    // 1. Hash รหัสผ่านด้วย bcrypt (salt rounds = 10)
-    const hashedPassword = await bcrypt.hash('1234', 10);
-
-    // 2. สร้าง User เริ่มต้น (admin / 1234)
-    const user = await prisma.user.upsert({
-        where: { username: 'admin' },
-        update: { password: hashedPassword },
-        create: {
-            username: 'admin',
-            password: hashedPassword,
-        },
+    const hashed = await bcrypt.hash('1234', 10);
+    await prisma.user.upsert({
+        where: { email: 'admin@tsu.ac.th' },
+        update: { password: hashed },
+        create: { email: 'admin@tsu.ac.th', password: hashed },
     });
-
-    console.log('Seed user done:', user.username);
+    console.log('Seed user done: admin@tsu.ac.th');
 }
 
 main().finally(() => prisma.$disconnect());

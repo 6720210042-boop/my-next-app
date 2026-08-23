@@ -1,8 +1,7 @@
 import * as CommentModel from './comments';
 import { NotFoundError, ValidationError } from './errors';
 import { Prisma } from '@prisma/client';
-import { createCommentSchema } from './validations';
-import sanitizeHtml from 'sanitize-html';
+import { cleanRichText } from './sanitize';
 
 export async function listComments() {
     return await CommentModel.getComments();
@@ -15,20 +14,17 @@ export async function getCommentById(id: string) {
 }
 
 export async function createComment(data: { author: string; content: string; messageId: string }) {
-    // 1. Validate ด้วย Zod
-    const parsed = createCommentSchema.safeParse(data);
-    if (!parsed.success) {
-        throw new ValidationError(parsed.error.issues[0].message);
-    }
+    if (!data.author || !data.content) throw new ValidationError('ข้อมูลไม่ครบ');
+    if (!data.messageId) throw new ValidationError('ต้องระบุ messageId');
 
-    // 2. ป้องกัน XSS ด้วย sanitize-html
-    const cleanAuthor = sanitizeHtml(parsed.data.author, { allowedTags: [], allowedAttributes: {} });
-    const cleanContent = sanitizeHtml(parsed.data.content, { allowedTags: [], allowedAttributes: {} });
+    // ตัด <script>, onerror= ทิ้งก่อนเก็บ (อนุญาตแค่ <b>, <i>, <a>)
+    const safeContent = cleanRichText(data.content);
+    const safeAuthor = cleanRichText(data.author);
 
     return await CommentModel.addComment({
-        author: cleanAuthor,
-        content: cleanContent,
-        messageId: parsed.data.messageId,
+        author: safeAuthor,
+        content: safeContent,
+        messageId: data.messageId,
     });
 }
 
@@ -36,7 +32,7 @@ export async function editComment(id: string, updates: { content?: string }) {
     try {
         let cleanUpdates = { ...updates };
         if (updates.content) {
-            cleanUpdates.content = sanitizeHtml(updates.content, { allowedTags: [], allowedAttributes: {} });
+            cleanUpdates.content = cleanRichText(updates.content);
         }
         return await CommentModel.updateComment(id, cleanUpdates);
     } catch (err) {
@@ -62,4 +58,5 @@ export async function removeComment(id: string) {
 export async function listMessagesWithComments() {
     return await CommentModel.getMessagesWithComments();
 }
+
 
