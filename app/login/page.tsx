@@ -13,9 +13,18 @@ export default function LoginPage() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
         });
-        const data = await res.json();
-        if (!res.ok) { setError(data.error || 'เข้าสู่ระบบไม่สําเร็จ'); return; }
+        let data = {};
+        try {
+            data = await res.json();
+        } catch {
+            // ignore json parse error on non-json error responses
+        }
+        if (!res.ok) { 
+            setError(data.error || 'เข้าสู่ระบบไม่สําเร็จ'); 
+            return; 
+        }
         router.push('/dashboard');
+        router.refresh();
     }
     return (
         <form onSubmit={handleSubmit} className="space-y-3 max-w-sm p-8">

@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import { findUserByEmail } from '@/lib/users';
+import { withErrorHandling } from '@/lib/withErrorHandling';
 
-export async function POST(request: Request) {
+export const POST = withErrorHandling(async (request: Request) => {
     const { email, password } = await request.json();
     const user = await findUserByEmail(email);
     const isValid = user && (await bcrypt.compare(password, user.password));
@@ -9,6 +10,6 @@ export async function POST(request: Request) {
         return Response.json({ error: 'อีเมล/รหัสผ่านไม่ถูกต้อง' }, { status: 401 });
     }
     const res = Response.json({ ok: true });
-    res.headers.set('Set-Cookie', `session=${user.id}; Path=/; HttpOnly; Secure; SameSite=Strict`);
+    res.headers.set('Set-Cookie', `session=${user.id}; Path=/; HttpOnly; SameSite=Lax`);
     return res;
-}
+});
