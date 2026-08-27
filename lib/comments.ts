@@ -9,7 +9,13 @@ export async function getCommentById(id: string) {
 }
 
 export async function addComment(data: { author: string; content: string; messageId: string }) {
-    return prisma.comment.create({ data });
+    return prisma.comment.create({
+        data: {
+            author: data.author,
+            content: data.content,
+            messageId: data.messageId,
+        },
+    });
 }
 
 export async function updateComment(id: string, updates: { content?: string }) {

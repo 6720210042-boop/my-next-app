@@ -1,7 +1,6 @@
-// app/courses/[id]/page.tsx — Course Detail
+// app/courses/[id]/page.tsx — Course Detail (Clean & Single Color Blocks)
 import Link from 'next/link';
-import type { Metadata } from 'next';
-import type { ResolvingMetadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 
 interface CourseDetail {
   id: string;
@@ -17,8 +16,6 @@ interface CourseDetail {
   description: string;
   objectives: string[];
   topics: string[];
-  color: string;
-  accentColor: string;
 }
 
 const courseData: Record<string, CourseDetail> = {
@@ -31,9 +28,7 @@ const courseData: Record<string, CourseDetail> = {
     department: 'ภาควิชาวิทยาการคอมพิวเตอร์',
     category: 'วิชาเอกบังคับ',
     semester: '1/2568',
-    emoji: '',
-    color: 'rgba(124,58,237,0.12)',
-    accentColor: '#a78bfa',
+    emoji: '🌐',
     description:
       'ศึกษาการพัฒนาเว็บแอปพลิเคชันในฝั่ง Client-side และ Server-side โดยใช้เทคโนโลยีสมัยใหม่ ' +
       'ได้แก่ HTML5, CSS3, JavaScript, TypeScript, React และ Next.js รวมถึงการออกแบบ REST API ' +
@@ -74,8 +69,6 @@ const courseData: Record<string, CourseDetail> = {
     category: 'วิชาเอกบังคับ',
     semester: '1/2568',
     emoji: '🗄️',
-    color: 'rgba(6,182,212,0.12)',
-    accentColor: '#22d3ee',
     description:
       'ศึกษาหลักการออกแบบและจัดการฐานข้อมูลเชิงสัมพันธ์ (Relational Database) ' +
       'การเขียน SQL ระดับสูง การออกแบบ Entity-Relationship (ER Diagram) ' +
@@ -116,8 +109,6 @@ const courseData: Record<string, CourseDetail> = {
     category: 'วิชาเอกเลือก',
     semester: '1/2568',
     emoji: '🤖',
-    color: 'rgba(245,158,11,0.1)',
-    accentColor: '#fbbf24',
     description:
       'ศึกษาหลักการของปัญญาประดิษฐ์ (AI) และการเรียนรู้ของเครื่อง (Machine Learning) ' +
       'ครอบคลุมอัลกอริทึมการเรียนรู้แบบ Supervised, Unsupervised และ Reinforcement Learning ' +
@@ -158,8 +149,6 @@ const courseData: Record<string, CourseDetail> = {
     category: 'วิชาเอกบังคับ',
     semester: '1/2568',
     emoji: '⚙️',
-    color: 'rgba(16,185,129,0.1)',
-    accentColor: '#34d399',
     description:
       'ศึกษากระบวนการพัฒนาซอฟต์แวร์อย่างเป็นระบบ ครอบคลุมการวิเคราะห์ความต้องการ ' +
       'การออกแบบระบบ (UML) การทดสอบซอฟต์แวร์ และการบำรุงรักษา ตลอดจนวิธีการพัฒนา Agile/Scrum',
@@ -198,9 +187,7 @@ const courseData: Record<string, CourseDetail> = {
     department: 'ภาควิชาวิทยาการคอมพิวเตอร์',
     category: 'วิชาเอกเลือก',
     semester: '1/2568',
-    emoji: '🔐',
-    color: 'rgba(239,68,68,0.1)',
-    accentColor: '#f87171',
+    emoji: '🔒',
     description:
       'ศึกษาหลักการความมั่นคงปลอดภัยสารสนเทศและไซเบอร์ ครอบคลุมการเข้ารหัส (Cryptography) ' +
       'ความปลอดภัยเครือข่าย การวิเคราะห์ภัยคุกคาม และแนวปฏิบัติ Ethical Hacking เบื้องต้น',
@@ -254,9 +241,9 @@ export default async function CourseDetailPage({ params }: Props) {
   if (!c) {
     return (
       <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-        <div style={{ fontSize: '4rem' }}></div>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '1rem 0' }}>ไม่พบรายวิชา</h1>
-        <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>รหัสวิชา &ldquo;{id}&rdquo; ไม่มีในระบบ</p>
+        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📭</div>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '1rem 0', color: '#ffffff' }}>ไม่พบรายวิชา</h1>
+        <p style={{ color: '#9ca3af', marginBottom: '1.5rem' }}>รหัสวิชา &ldquo;{id}&rdquo; ไม่มีในระบบ</p>
         <Link href="/courses" className="btn-primary">← กลับไปรายวิชา</Link>
       </div>
     );
@@ -265,29 +252,23 @@ export default async function CourseDetailPage({ params }: Props) {
   return (
     <div className="fade-in-up">
       {/* Breadcrumb */}
-      <div style={{ marginBottom: '1.5rem', fontSize: '0.875rem', color: '#64748b' }}>
-        <Link href="/courses" style={{ color: '#a78bfa', textDecoration: 'none' }}>รายวิชา</Link>
-        <span style={{ margin: '0 8px' }}>›</span>
-        <span>{c.nameTH}</span>
+      <div style={{ marginBottom: '1.5rem', fontSize: '0.9rem', color: '#9ca3af' }}>
+        <Link href="/courses" style={{ color: 'var(--pink-pastel)', textDecoration: 'none' }}>📚 รายวิชา</Link>
+        <span style={{ margin: '0 8px', color: '#6b7280' }}>›</span>
+        <span style={{ color: '#ffffff' }}>{c.nameTH}</span>
       </div>
 
-      {/* Hero card */}
-      <div className="card" style={{
-        background: c.color,
-        borderColor: `${c.accentColor}33`,
-        marginBottom: '2rem',
-        padding: '2rem',
-      }}>
+      {/* Hero card — บล็อกสีเดียว */}
+      <div className="card" style={{ marginBottom: '1.5rem', padding: '1.75rem' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1.5rem', flexWrap: 'wrap' }}>
           <div style={{
-            width: 80, height: 80,
-            borderRadius: '16px',
-            background: `${c.accentColor}22`,
-            border: `2px solid ${c.accentColor}44`,
+            width: 64, height: 64,
+            borderRadius: '8px',
+            background: 'var(--card-hover-bg)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '2.5rem', flexShrink: 0,
+            fontSize: '2.2rem', flexShrink: 0,
           }}>
-            {c.id}
+            {c.emoji}
           </div>
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
@@ -295,49 +276,48 @@ export default async function CourseDetailPage({ params }: Props) {
               <span className="tag">รหัส: {c.id}</span>
               <span className="tag">ภาค {c.semester}</span>
             </div>
-            <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: c.accentColor, lineHeight: 1.2, marginBottom: '0.25rem' }}>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-main)', lineHeight: 1.25, marginBottom: '0.25rem' }}>
               {c.nameTH}
             </h1>
-            <p style={{ color: '#94a3b8', fontSize: '1rem' }}>{c.nameEN}</p>
+            <p style={{ color: 'var(--pink-pastel)', fontSize: '1rem' }}>{c.nameEN}</p>
           </div>
         </div>
       </div>
 
-      {/* Info grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+      {/* Info grid — บล็อกสีเดียว */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'รหัสวิชา', value: c.id, emoji: '' },
-          { label: 'หน่วยกิต', value: `${c.credits} หน่วยกิต`, emoji: '' },
-          { label: 'ผู้สอน', value: c.instructor, emoji: '' },
-          { label: 'ภาควิชา', value: c.department, emoji: '' },
+          { label: 'รหัสวิชา', value: c.id },
+          { label: 'หน่วยกิต', value: `${c.credits} หน่วยกิต` },
+          { label: 'ผู้สอน', value: c.instructor },
+          { label: 'ภาควิชา', value: c.department },
         ].map((item) => (
           <div key={item.label} className="card" style={{ padding: '1rem' }}>
-            <div style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}></div>
-            <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: '4px' }}>{item.label}</div>
-            <div style={{ fontWeight: 700, fontSize: '0.9rem', lineHeight: 1.3 }}>{item.value}</div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--pink-pastel)', marginBottom: '2px' }}>
+              {item.label}
+            </div>
+            <div style={{ fontWeight: 600, fontSize: '0.925rem', color: 'var(--text-main)', lineHeight: 1.3 }}>{item.value}</div>
           </div>
         ))}
       </div>
 
-      {/* Description + Objectives */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
-        {/* Description */}
+      {/* Description + Objectives — บล็อกสีเดียว */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
         <div className="card">
-          <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.75rem', color: c.accentColor }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.75rem', color: 'var(--pink-pastel)' }}>
             คำอธิบายรายวิชา
           </h2>
-          <p style={{ fontSize: '0.875rem', lineHeight: 1.8, color: '#cbd5e1' }}>{c.description}</p>
+          <p style={{ fontSize: '0.925rem', lineHeight: 1.85, color: 'var(--text-body)' }}>{c.description}</p>
         </div>
 
-        {/* Objectives */}
         <div className="card">
-          <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.75rem', color: c.accentColor }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.75rem', color: 'var(--pink-pastel)' }}>
             วัตถุประสงค์รายวิชา
           </h2>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {c.objectives.map((obj, i) => (
-              <li key={i} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.875rem', color: '#cbd5e1' }}>
-                <span style={{ color: c.accentColor, flexShrink: 0 }}>✓</span>
+              <li key={i} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-body)' }}>
+                <span style={{ color: 'var(--pink-pastel)', flexShrink: 0, fontWeight: 'bold' }}>✓</span>
                 {obj}
               </li>
             ))}
@@ -345,49 +325,47 @@ export default async function CourseDetailPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Topics + Grading */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
-        {/* Topics */}
+      {/* Topics + Grading — บล็อกสีเดียว */}
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.25rem', marginBottom: '2rem' }}>
         <div className="card">
-          <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.75rem', color: c.accentColor }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.75rem', color: 'var(--pink-pastel)' }}>
             หัวข้อที่สอน
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
             {c.topics.map((topic, i) => (
               <div key={i} style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.06)',
-                borderRadius: '8px',
-                padding: '0.5rem 0.75rem',
-                fontSize: '0.8rem',
-                color: '#94a3b8',
+                background: 'var(--card-hover-bg)',
+                border: '1px solid var(--card-border)',
+                borderRadius: '6px',
+                padding: '0.55rem 0.75rem',
+                fontSize: '0.85rem',
+                color: '#d1d5db',
                 display: 'flex',
                 gap: '0.5rem',
               }}>
-                <span style={{ color: c.accentColor }}>{String(i + 1).padStart(2, '0')}.</span>
+                <span style={{ color: 'var(--pink-pastel)', fontWeight: 600 }}>{String(i + 1).padStart(2, '0')}.</span>
                 {topic}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Grading */}
         <div className="card">
-          <h2 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '1rem', color: c.accentColor }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.85rem', color: 'var(--pink-pastel)' }}>
             เกณฑ์การให้คะแนน
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {c.gradingPolicy.map((g) => (
               <div key={g.item}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '4px' }}>
-                  <span style={{ color: '#cbd5e1' }}>{g.item}</span>
-                  <span style={{ color: c.accentColor, fontWeight: 700 }}>{g.percent}%</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '3px' }}>
+                  <span style={{ color: '#d1d5db' }}>{g.item}</span>
+                  <span style={{ color: 'var(--pink-pastel)', fontWeight: 600 }}>{g.percent}%</span>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '999px', height: '6px', overflow: 'hidden' }}>
+                <div style={{ background: '#20202c', borderRadius: '999px', height: '6px', overflow: 'hidden' }}>
                   <div style={{
                     width: `${g.percent}%`,
                     height: '100%',
-                    background: `linear-gradient(90deg, ${c.accentColor}, ${c.accentColor}88)`,
+                    background: 'var(--pink-pastel)',
                     borderRadius: '999px',
                   }} />
                 </div>
@@ -397,13 +375,13 @@ export default async function CourseDetailPage({ params }: Props) {
           <div style={{
             marginTop: '1rem',
             paddingTop: '0.75rem',
-            borderTop: '1px solid rgba(255,255,255,0.06)',
+            borderTop: '1px solid #1e1e28',
             display: 'flex',
             justifyContent: 'space-between',
             fontSize: '0.875rem',
           }}>
-            <span style={{ color: '#64748b' }}>รวม</span>
-            <span style={{ color: c.accentColor, fontWeight: 800 }}>100%</span>
+            <span style={{ color: '#9ca3af' }}>รวม</span>
+            <span style={{ color: 'var(--pink-pastel)', fontWeight: 700 }}>100%</span>
           </div>
         </div>
       </div>

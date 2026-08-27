@@ -1,10 +1,4 @@
-// app/posts/page.tsx
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Posts | Pathomphon Portfolio',
-  description: 'บทความจาก JSONPlaceholder API',
-};
+import { connection } from 'next/server';
 
 interface Post {
   id: number;
@@ -13,40 +7,49 @@ interface Post {
 }
 
 export default async function PostsPage() {
-  const res = await fetch(
-    'https://jsonplaceholder.typicode.com/posts?_limit=10',
-    { cache: 'no-store' }
-  );
+  await connection();
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10', {
+    next: { revalidate: 3600 },
+  });
   const posts: Post[] = await res.json();
 
   return (
     <div className="fade-in-up">
-      <div style={{ marginBottom: '3rem' }}>
-        <span className="badge" style={{ marginBottom: '1rem', display: 'inline-block' }}>API Demo</span>
-        <h1 className="section-title gradient-text">Posts</h1>
-        <p style={{ color: '#94a3b8', marginTop: '1.5rem' }}>
-          ข้อมูลจาก JSONPlaceholder API — แสดง Server-side Data Fetching ใน Next.js
+      <div style={{ marginBottom: '2.5rem' }}>
+        <span className="badge" style={{ marginBottom: '0.75rem', display: 'inline-flex' }}>
+          🌐 JSONPlaceholder API
+        </span>
+        <h1 className="section-title">
+          <span>📰</span> โพสต์ทั้งหมด (Server Components)
+        </h1>
+        <p style={{ color: 'var(--text-muted)' }}>
+          ดึงข้อมูลแบบ Server-Side Rendering (SSR) พร้อม Caching 1 ชั่วโมง
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {posts.map((p: Post) => (
-          <div key={p.id} className="card" style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+      <div style={{ display: 'grid', gap: '1rem' }}>
+        {posts.map((p) => (
+          <div
+            key={p.id}
+            className="card"
+            style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}
+          >
             <div style={{
-              width: 40, height: 40, borderRadius: '10px',
-              background: 'linear-gradient(135deg, rgba(124,58,237,0.3), rgba(6,182,212,0.2))',
+              width: '44px', height: '44px', borderRadius: '10px',
+              background: 'var(--badge-bg)',
+              border: '1px solid var(--pink-pastel)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 800, color: '#a78bfa', fontSize: '0.85rem',
+              fontWeight: 800, color: 'var(--pink-pastel)', fontSize: '0.9rem',
               flexShrink: 0,
             }}>
               #{p.id}
             </div>
             <div>
-              <h2 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.35rem', lineHeight: 1.4, textTransform: 'capitalize' }}>
+              <h2 style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-main)', marginBottom: '0.4rem', lineHeight: 1.4, textTransform: 'capitalize' }}>
                 {p.title}
               </h2>
-              <p style={{ fontSize: '0.825rem', color: '#64748b', lineHeight: 1.65 }}>
-                {p.body.slice(0, 120)}...
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
+                {p.body.slice(0, 140)}...
               </p>
             </div>
           </div>

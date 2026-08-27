@@ -10,18 +10,23 @@ export function withErrorHandling(handler: RouteHandler): RouteHandler {
         } catch (error: any) {
             console.error('API Error caught by wrapper:', error);
 
-            // หากเป็น Custom Error ที่เราระบุ (เช่น NotFoundError, ValidationError, ForbiddenError)
-            if (error instanceof AppError || error.status || error.statusCode) {
-                const status = error.statusCode || error.status || 400;
+            if (
+                error instanceof AppError ||
+                error.status ||
+                error.statusCode ||
+                error.name === 'ForbiddenError' ||
+                error.name === 'ValidationError' ||
+                error.name === 'NotFoundError'
+            ) {
+                const status = error.statusCode || error.status || (error.name === 'ForbiddenError' ? 403 : error.name === 'NotFoundError' ? 404 : 400);
                 return NextResponse.json(
                     { error: error.message },
                     { status }
                 );
             }
 
-            // หากเป็น Unexpected Error ที่ไม่ได้คาดคิด ให้ตอบ Status 500 แทนที่จะปล่อยให้ Server Crash
             return NextResponse.json(
-                { error: 'เกิดข้อผิดพลาดที่ไม่คาดคิด' },
+                { error: error.message || 'เกิดข้อผิดพลาดที่ไม่คาดคิด' },
                 { status: 500 }
             );
         }

@@ -1,5 +1,8 @@
+import { NextResponse } from 'next/server';
+
 export async function POST() {
-    const res = Response.json({ ok: true });
-    res.headers.set('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0');
+    const res = NextResponse.json({ ok: true });
+    res.headers.append('Set-Cookie', 'session=; Path=/; HttpOnly; Max-Age=0');
+    res.headers.append('Set-Cookie', 'logged_in=; Path=/; Max-Age=0');
     return res;
 }

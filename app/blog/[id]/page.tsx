@@ -1,4 +1,4 @@
-// app/blog/[id]/page.tsx — Blog Post Detail
+// app/blog/[id]/page.tsx — Blog Post Detail (Clean & Single Color Blocks)
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
@@ -13,7 +13,6 @@ interface BlogPost {
   coverImg: string;
   tags: string[];
   content: { heading?: string; body: string }[];
-  accentColor: string;
 }
 
 const blogData: Record<string, BlogPost> = {
@@ -26,7 +25,6 @@ const blogData: Record<string, BlogPost> = {
     readTime: '8 นาที',
     coverImg: '/blog-webdev.png',
     tags: ['Web Dev', 'Programming', 'Beginner'],
-    accentColor: '#a78bfa',
     content: [
       {
         body: 'ย้อนกลับไปเมื่อ 2 ปีที่แล้ว ผมไม่รู้จัก HTML เลยสักบรรทัด แต่วันนี้ผมกำลังเขียน Next.js + TypeScript ในวิชา Web Application Development ที่มหาวิทยาลัย เส้นทางนี้มันไม่ง่ายเลย แต่ก็สนุกและท้าทายมาก',
@@ -58,10 +56,9 @@ const blogData: Record<string, BlogPost> = {
     readTime: '10 นาที',
     coverImg: '/blog-nextjs.png',
     tags: ['Next.js', 'React', 'TypeScript', 'Tutorial'],
-    accentColor: '#22d3ee',
     content: [
       {
-        body: 'Next.js 16 มาพร้อม App Router ที่เปลี่ยนวิธีคิดการพัฒนาเว็บไปเลย ใน blog นี้ผมจะสรุปสิ่งที่ได้เรียนรู้จากวิชา Web Application Development ที่ม.บูรพา',
+        body: 'Next.js 16 มาพร้อม App Router ที่เปลี่ยนวิธีคิดการพัฒนาเว็บไปเลย ใน blog นี้ผมจะสรุปสิ่งที่ได้เรียนรู้จากวิชา Web Application Development',
       },
       {
         heading: '📁 File-based Routing',
@@ -83,20 +80,19 @@ const blogData: Record<string, BlogPost> = {
   },
   'university-life': {
     id: 'university-life',
-    title: 'ชีวิตนิสิต CS มหาวิทยาลัยบูรพา',
-    subtitle: 'เรียน Code ท่ามกลางทะเลและลมชายฝั่ง',
+    title: 'ชีวิตนิสิต CS มหาวิทยาลัยทักษิณ',
+    subtitle: 'เรียน Code ท่ามกลางธรรมชาติและเพื่อนร่วมทาง',
     category: 'Life',
     date: '5 กรกฎาคม 2568',
     readTime: '6 นาที',
     coverImg: '/blog-university.png',
-    tags: ['University', 'Life', 'CS Student', 'Burapha'],
-    accentColor: '#34d399',
+    tags: ['University', 'Life', 'CS Student'],
     content: [
       {
-        body: 'ม.บูรพา ชลบุรี — มหาวิทยาลัยริมทะเลที่ผมเรียนอยู่ ชีวิตที่นี่มันพิเศษมาก เพราะเราสามารถไปนั่ง Debug โค้ดข้างทะเลได้ตอนเย็น 😄',
+        body: 'มหาวิทยาลัยทักษิณ วิทยาเขตพัทลุง — สถานที่ที่ผมกำลังศึกษาอยู่ ชีวิตที่นี่เต็มไปด้วยความสุข ความสงบ และการโฟกัสกับการเขียนโปรแกรม',
       },
       {
-        heading: '🎓 หลักสูตร CS ที่บูรพา',
+        heading: '🎓 หลักสูตร CS',
         body: 'หลักสูตรวิทยาการคอมพิวเตอร์ที่นี่ครอบคลุมทั้ง Theory (Algorithms, OS, Networks) และ Practice (Programming, Web Dev, AI) ในปีที่ 3 ได้ลงลึกในวิชาที่ตัวเองชอบมากขึ้น',
       },
       {
@@ -109,7 +105,7 @@ const blogData: Record<string, BlogPost> = {
       },
       {
         heading: '🌅 คำแนะนำสำหรับ Freshman',
-        body: 'ถ้าใครเพิ่งเข้ามาเรียน CS: อย่ากลัวที่จะถามอาจารย์, เข้าชมรม IT/Coding, เริ่ม Build โปรเจกต์เล็กๆ ตั้งแต่ปี 1 และที่สำคัญ — สนุกกับมันด้วย!',
+        body: 'ถ้าใครเพิ่งเข้ามาเรียน CS: อย่ากลัวที่จะถามอาจารย์, เข้ากลุ่ม IT/Coding, เริ่ม Build โปรเจกต์เล็กๆ ตั้งแต่ปี 1 และที่สำคัญ — สนุกกับมันด้วย!',
       },
     ],
   },
@@ -137,9 +133,9 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!post) {
     return (
       <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-        <div style={{ fontSize: '4rem' }}>📭</div>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '1rem 0' }}>ไม่พบ Blog นี้</h1>
-        <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>บทความ &ldquo;{id}&rdquo; ไม่มีในระบบ</p>
+        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📭</div>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '1rem 0', color: '#ffffff' }}>ไม่พบ Blog นี้</h1>
+        <p style={{ color: '#9ca3af', marginBottom: '1.5rem' }}>บทความ &ldquo;{id}&rdquo; ไม่มีในระบบ</p>
         <Link href="/blog" className="btn-primary">← กลับไป Blog</Link>
       </div>
     );
@@ -148,75 +144,80 @@ export default async function BlogDetailPage({ params }: Props) {
   return (
     <article className="fade-in-up">
       {/* Breadcrumb */}
-      <div style={{ marginBottom: '1.5rem', fontSize: '0.875rem', color: '#64748b' }}>
-        <Link href="/blog" style={{ color: '#a78bfa', textDecoration: 'none' }}>✍️ Blog</Link>
-        <span style={{ margin: '0 8px' }}>›</span>
-        <span>{post.title}</span>
+      <div style={{ marginBottom: '1.5rem', fontSize: '0.9rem', color: '#9ca3af' }}>
+        <Link href="/blog" style={{ color: 'var(--pink-pastel)', textDecoration: 'none' }}>✍️ Blog</Link>
+        <span style={{ margin: '0 8px', color: '#6b7280' }}>›</span>
+        <span style={{ color: '#ffffff' }}>{post.title}</span>
       </div>
 
       {/* Cover image */}
-      <div style={{ borderRadius: '16px', overflow: 'hidden', marginBottom: '2rem', position: 'relative' }}>
+      <div style={{
+        borderRadius: '8px',
+        overflow: 'hidden',
+        marginBottom: '1.75rem',
+        position: 'relative',
+        border: '1px solid #1e1e28',
+      }}>
         <Image
           src={post.coverImg}
           alt={post.title}
           width={1200}
           height={500}
-          style={{ width: '100%', height: '400px', objectFit: 'cover' }}
+          style={{ width: '100%', height: '340px', objectFit: 'cover' }}
           priority
         />
-        {/* Category overlay */}
         <div style={{
-          position: 'absolute', top: 16, left: 16,
-          background: `${post.accentColor}dd`,
-          color: '#000',
-          borderRadius: '8px',
-          padding: '4px 12px',
+          position: 'absolute', top: 14, left: 14,
+          background: 'var(--pink-pastel)',
+          color: '#000000',
+          borderRadius: '4px',
+          padding: '3px 12px',
           fontSize: '0.8rem',
-          fontWeight: 700,
+          fontWeight: 600,
         }}>
           {post.category}
         </div>
       </div>
 
       {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+      <div style={{ marginBottom: '1.75rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '0.75rem' }}>
           {post.tags.map((tag) => (
             <span key={tag} className="tag">{tag}</span>
           ))}
         </div>
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 900, lineHeight: 1.2, color: post.accentColor, marginBottom: '0.5rem' }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--text-main)', marginBottom: '0.4rem' }}>
           {post.title}
         </h1>
-        <p style={{ fontSize: '1.1rem', color: '#94a3b8', marginBottom: '1rem' }}>{post.subtitle}</p>
-        <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: '#64748b' }}>
+        <p style={{ fontSize: '1rem', color: 'var(--pink-pastel)', marginBottom: '0.75rem' }}>{post.subtitle}</p>
+        <div style={{ display: 'flex', gap: '1.25rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
           <span>📅 {post.date}</span>
-          <span>⏱️ อ่านประมาณ {post.readTime}</span>
-          <span>✍️ ปฐมพร บัวเนี่ยว (ชิน)</span>
+          <span>⏱️ {post.readTime}</span>
+          <span>✍️ ปฐมพร บัวเนี่ยว</span>
         </div>
       </div>
 
       {/* Divider */}
-      <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', marginBottom: '2rem' }} />
+      <div style={{ height: '1px', background: 'var(--card-border)', marginBottom: '1.75rem' }} />
 
       {/* Content */}
-      <div style={{ maxWidth: '720px' }}>
+      <div style={{ maxWidth: '750px' }}>
         {post.content.map((section, i) => (
           <div key={i} style={{ marginBottom: '1.75rem' }}>
             {section.heading && (
               <h2 style={{
-                fontSize: '1.25rem',
-                fontWeight: 700,
-                color: post.accentColor,
-                marginBottom: '0.75rem',
+                fontSize: '1.2rem',
+                fontWeight: 600,
+                color: 'var(--pink-pastel)',
+                marginBottom: '0.5rem',
               }}>
                 {section.heading}
               </h2>
             )}
             <p style={{
-              fontSize: '1rem',
-              lineHeight: 1.9,
-              color: '#cbd5e1',
+              fontSize: '0.95rem',
+              lineHeight: 1.85,
+              color: 'var(--text-body)',
               whiteSpace: 'pre-wrap',
             }}>
               {section.body}
@@ -229,14 +230,16 @@ export default async function BlogDetailPage({ params }: Props) {
       <div style={{
         marginTop: '3rem',
         paddingTop: '1.5rem',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid var(--card-border)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '1rem',
       }}>
         <Link href="/blog" className="btn-primary">← บทความทั้งหมด</Link>
-        <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
-          เขียนโดย <strong style={{ color: '#2563eb' }}>ปฐมพร บัวเนี่ยว (ชิน)</strong>
+        <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+          เขียนโดย <strong style={{ color: 'var(--text-main)' }}>ปฐมพร บัวเนี่ยว (ชิน)</strong>
         </div>
       </div>
     </article>

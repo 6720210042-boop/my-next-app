@@ -4,32 +4,47 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
     setError('');
 
+    if (password !== confirmPassword) {
+      setError('รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน');
+      return;
+    }
+
+    if (password.length < 4) {
+      setError('รหัสผ่านต้องมีความยาวอย่างน้อย 4 ตัวอักษร');
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await fetch('/api/login', {
+      const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, confirmPassword }),
       });
 
       const data = await res.json().catch(() => ({}));
 
       setLoading(false);
+
       if (!res.ok) {
-        setError(data.error || 'เข้าสู่ระบบไม่สำเร็จ ตรวจสอบอีเมลและรหัสผ่าน');
+        setError(data.error || 'การสมัครสมาชิกไม่สำเร็จ โปรดลองใหม่อีกครั้ง');
         return;
       }
+
+      // สมัครสำเร็จและตั้ง Cookie ให้แล้ว นำทางไปยัง Dashboard ทันที
       router.push('/dashboard');
       router.refresh();
     } catch {
@@ -45,7 +60,7 @@ export default function LoginPage() {
         className="card"
         style={{
           width: '100%',
-          maxWidth: '420px',
+          maxWidth: '440px',
           display: 'flex',
           flexDirection: 'column',
           gap: '1.25rem',
@@ -54,13 +69,13 @@ export default function LoginPage() {
       >
         <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
           <span className="badge" style={{ marginBottom: '0.6rem', display: 'inline-flex' }}>
-            🔐 Member Login
+            ✨ New Account
           </span>
           <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-main)' }}>
-            เข้าสู่ระบบ
+            สมัครสมาชิก
           </h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
-            เข้าสู่ระบบเพื่อแสดงความคิดเห็นและจัดการข้อความ
+            สร้างบัญชีเพื่อแสดงความคิดเห็นและพูดคุยในเว็บไซต์
           </p>
         </div>
 
@@ -72,7 +87,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="email"
-            placeholder="6720210042@tsu.ac.th หรือ อีเมลของคุณ"
+            placeholder="your-name@example.com"
             required
             style={{ width: '100%' }}
           />
@@ -86,7 +101,21 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
-            placeholder="••••••••"
+            placeholder="อย่างน้อย 4 ตัวอักษร"
+            required
+            style={{ width: '100%' }}
+          />
+        </div>
+
+        <div>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-main)', marginBottom: '0.35rem' }}>
+            ยืนยันรหัสผ่าน (Confirm Password)
+          </label>
+          <input
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+            placeholder="พิมพ์รหัสผ่านอีกครั้ง"
             required
             style={{ width: '100%' }}
           />
@@ -111,13 +140,13 @@ export default function LoginPage() {
           className="btn-primary"
           style={{ width: '100%', padding: '10px', marginTop: '0.5rem' }}
         >
-          {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ (Login)'}
+          {loading ? 'กำลังสร้างบัญชี...' : '🌸 สมัครสมาชิก (Sign Up)'}
         </button>
 
         <div style={{ textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-muted)', paddingTop: '0.75rem', borderTop: '1px solid var(--card-border)' }}>
-          ยังไม่มีบัญชีผู้ใช้?{' '}
-          <Link href="/register" style={{ color: 'var(--pink-pastel)', textDecoration: 'none', fontWeight: 600 }}>
-            สมัครสมาชิกที่นี่ →
+          มีบัญชีผู้ใช้อยู่แล้ว?{' '}
+          <Link href="/login" style={{ color: 'var(--pink-pastel)', textDecoration: 'none', fontWeight: 600 }}>
+            เข้าสู่ระบบที่นี่ →
           </Link>
         </div>
       </form>

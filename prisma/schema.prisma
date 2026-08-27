@@ -17,6 +17,7 @@ model Message {
 model Comment {
   id        String   @id @default(cuid())
   author    String
+  authorId  String?
   content   String
   createdAt DateTime @default(now())
   messageId String
@@ -29,4 +30,3 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
-
