@@ -1,14 +1,17 @@
 generator client {
- provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "postgresql"
 }
+
 model Message {
   id        String    @id @default(cuid())
   name      String
   email     String    @unique
   message   String
+  tag       String?   // <-- ใส่บรรทัดนี้ไว้ใน Message เดิมตรงนี้ครับ
   authorId  String?
   createdAt DateTime  @default(now())
   comments  Comment[]
@@ -30,3 +33,4 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
