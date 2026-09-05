@@ -14,6 +14,7 @@ interface ContactMessage {
   name: string;
   email: string;
   message: string;
+  tag?: string | null;
   createdAt: string;
   comments: Comment[];
 }
@@ -141,9 +142,12 @@ export default function MessageCard({ m, currentUserId, currentUserEmail }: Mess
         }}
       >
         <div>
-          <p style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '1.05rem', marginBottom: '0.2rem' }}>
-            {m.name}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
+            <p style={{ fontWeight: 600, color: 'var(--text-main)', fontSize: '1.05rem' }}>
+              {m.name}
+            </p>
+            {m.tag && <span className="badge">🏷️ {m.tag}</span>}
+          </div>
           <p style={{ color: 'var(--pink-pastel)', fontSize: '0.85rem' }}>{m.email}</p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

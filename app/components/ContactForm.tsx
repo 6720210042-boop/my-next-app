@@ -4,6 +4,7 @@ import { useState } from 'react';
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [tag, setTag] = useState('ทั่วไป');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -33,7 +34,7 @@ export default function ContactForm() {
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, message }),
+      body: JSON.stringify({ name, email, message, tag }),
     });
 
     if (!res.ok) {
@@ -46,6 +47,7 @@ export default function ContactForm() {
     setName('');
     setEmail('');
     setMessage('');
+    setTag('ทั่วไป');
   }
 
   return (
@@ -82,6 +84,22 @@ export default function ContactForm() {
           placeholder="example@mail.com"
           style={{ width: '100%' }}
         />
+      </div>
+
+      <div>
+        <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-main)', marginBottom: '0.35rem' }}>
+          หมวดหมู่ / แท็ก (Tag)
+        </label>
+        <select
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+          style={{ width: '100%' }}
+        >
+          <option value="ทั่วไป">📌 ทั่วไป (General)</option>
+          <option value="สอบถาม">❓ สอบถาม (Question)</option>
+          <option value="ติชม">💬 ติชม / ข้อเสนอแนะ (Feedback)</option>
+          <option value="ติดต่องาน">💼 ติดต่องาน (Work)</option>
+        </select>
       </div>
 
       <div>
