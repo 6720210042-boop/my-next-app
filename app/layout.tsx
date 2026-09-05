@@ -99,6 +99,7 @@ export default function RootLayout({
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <span className="badge">Portfolio</span>
                 <span className="badge">Font: IBM Plex Sans Thai</span>
+                <span className="badge" style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>✨ Lab 12: Deployment Verified</span>
                 <ThemeToggle />
               </div>
               <p style={{ marginTop: '0.25rem' }}>
