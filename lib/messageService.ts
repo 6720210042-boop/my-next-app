@@ -26,8 +26,13 @@ export async function createMessage(raw: unknown, sessionUserId?: string) {
     }
 }
 
-export async function listMessages() {
-    return await MessageModel.getMessages();
+export async function listMessages(search?: string) {
+    const all = await MessageModel.getMessages();
+    if (!search) return all;
+    return all.filter((m) =>   
+        m.name.includes(search) ||
+        m.message.includes(search)
+    );
 }
 
 export async function getMessageById(id: string) {
