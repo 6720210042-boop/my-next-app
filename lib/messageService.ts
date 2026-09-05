@@ -26,15 +26,13 @@ export async function createMessage(raw: unknown, sessionUserId?: string) {
     }
 }
 
-// conflict by person 2
-export async function listMessages(search?: string) { //dgdhthhhhhthhhhhhhhhhhhhhhhhhhh
+export async function listMessages(search?: string) {
     const all = await MessageModel.getMessages();
     if (!search) return all;
     return all.filter((m) =>   
         m.name.includes(search) ||
         m.message.includes(search)
     );
->>>>>>> feature/message-search
 }
 
 export async function getMessageById(id: string) {
